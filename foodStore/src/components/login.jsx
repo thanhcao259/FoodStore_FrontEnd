@@ -37,7 +37,7 @@ function Login(){
                 
                 if (fetchIdentify === "ADMIN"){
                     navigate("/admin");
-                } else if (fetchIdentify === "USER"){
+                } else if (fetchIdentify === "CUSTOMER"){
                     navigate("/Home");
                 }
                 toast.success("Login success!!!", {
