@@ -29,9 +29,9 @@ function Login(){
             const fetchLogin = await loginApi.add(dataLogin);
             
             if (fetchLogin && fetchLogin.token) {
-                console.log('Response is received: ', fetchLogin)
+                // console.log('Response is received: ', fetchLogin)
                 // Cookies.set('token', fetchLogin, {expires: 7});
-                console.log('Token from login: ', fetchLogin.token)
+                // console.log('Token from login: ', fetchLogin.token)
                 setToken( fetchLogin.token )
                 const fetchIdentify = await identificationApi.get();
                 
