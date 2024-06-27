@@ -33,7 +33,11 @@ function EditCategory () {
 
 
     const handleChange = (e) => {
-        setImage(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        setImage(selectedFile);
+        if(!selectedFile){
+            return ;
+        }
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
