@@ -29,8 +29,8 @@ function UserRegistration(){
        
     const columns = [
         {
-            name: 'Id',
-            selector: row=>row.id,
+            name: 'Identity',
+            selector: row=>row.identity,
             sortable: true,
         },
         {

@@ -38,7 +38,10 @@ function AdminProducts(){
     }
        
     const columns = [
-        { name: 'Id', selector: row => row.id, sortable: true },
+        { name: 'Identity', selector: row => row.identity, sortable: true },
+        {name: 'Image', selector: row => (
+            <img src={row.urlImage} alt="image" style={{ width: '50px', height: '50px' }} />
+        ),},
         { name: 'Tên', selector: row => row.name, sortable: true },
         { name: 'Loại', selector: row => row.category_id, sortable: true },
         { name: 'Số lượng', selector: row => row.available, sortable: true },

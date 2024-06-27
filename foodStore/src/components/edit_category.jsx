@@ -44,7 +44,7 @@ function EditCategory () {
                 setImagePreview(reader.result);
             }
         };
-        reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(selectedFile);
     };
     
     const handleUpdateCategory = async (e) => {
@@ -55,7 +55,6 @@ function EditCategory () {
             formData.append("name", name);
             formData.append("description", description);
             if(image){
-
                 formData.append("image", image);
             }
             await listCategories.update(id, formData);
