@@ -1,9 +1,14 @@
+import axiosAdmin from "./axiosAdmin";
 import axiosClient from "./axiosClient";
 
 const listProducts= {
-    get(){
+    getAll(){
         const url = '/products/get-all';
         return axiosClient.get(url);
+    },
+    getAllByAdmin(){
+        const url = '/products/get-all';
+        return axiosAdmin.get(url);
     },
     delete(id){
         const url = `/admin/products/${id}`;
@@ -30,6 +35,14 @@ const listProducts= {
     seach(searchName){
         const url = `/products/search?searchName=${searchName}`;
         return axiosClient.get(url);
+    },
+    deactive(id){
+        const url = `/product-deactive/${id}`;
+        return axiosAdmin.put(url);
+    },
+    active(id){
+        const url = `/product-active/${id}`;
+        return axiosAdmin.put(url);
     }
 };
 

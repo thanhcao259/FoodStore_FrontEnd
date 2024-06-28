@@ -128,7 +128,8 @@ function Product(){
                                                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
                                                                         <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                                                     </ul> */}
-                                                                    <div class="product__discount__percent">-{item.discount*100}%</div>
+                                                                    { item.discount > 0 && (<div class="product__discount__percent">-{item.discount*100}%</div>)}
+                                                                    
                                                                 </div>
                                                                 <div class="product__item__text">
                                                                     <h6>{item.name}</h6>

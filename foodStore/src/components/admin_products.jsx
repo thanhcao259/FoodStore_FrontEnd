@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CheckCircle from "@mui/icons-material/CheckCircle";
 
 function AdminProducts(){
     const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ function AdminProducts(){
 
     const fetchData = async () => {
         try{
-            const response = await listProducts.get();
+            const response = await listProducts.getAllByAdmin();
             setData(response);
             
         } catch (error) {
@@ -26,14 +27,24 @@ function AdminProducts(){
         }
     };
 
-    const handleDelete = async (id) => {
+    const handleDeactive = async (id) => {
         try {
-            await listProducts.delete(id);
+            await listProducts.deactive(id);
             fetchData();
-            toast.success("Delete product success");
+            toast.success("Deactive product success");
         } catch (error) {
             console.log(error);
-            toast.error("Delete product failed");
+            toast.error("Deactive product failed");
+        }
+    }
+    const handleActive = async (id) => {
+        try {
+            await listProducts.active(id);
+            fetchData();
+            toast.success("Active product success");
+        } catch (error) {
+            console.log(error);
+            toast.error("Active product failed");
         }
     }
        
@@ -55,9 +66,12 @@ function AdminProducts(){
                         <EditIcon sx={{ color: '#1976d2' }} />
                     </IconButton>
                 </Link>
-                <IconButton aria-label="delete" onClick={() => handleDelete(row.id)}>
+                { row.status ? (<IconButton aria-label="deactive" onClick={() => handleDeactive(row.id)}>
                     <DeleteIcon sx={{ color: 'red' }} />
-                </IconButton>
+                </IconButton>) : (<IconButton aria-label="active" onClick={() => handleActive(row.id)}>
+                <CheckCircle sx={{ color: 'green' }} />
+            </IconButton>)}
+                
             </Box>
         ), },
     ];
