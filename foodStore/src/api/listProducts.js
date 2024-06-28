@@ -33,7 +33,7 @@ const listProducts= {
         return axiosClient.get(url);
     },
     seach(searchName){
-        const url = `/products/search?searchName=${searchName}`;
+        const url = `/products/search?keyword=${searchName}`;
         return axiosClient.get(url);
     },
     deactive(id){
