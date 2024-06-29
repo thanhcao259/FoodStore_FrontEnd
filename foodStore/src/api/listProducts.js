@@ -32,10 +32,17 @@ const listProducts= {
         const url = `/products?sortDir=${sortDir}&sortBy=${sortBy}&idCategory=${idCategory}&pageNo=${pageNo}`;
         return axiosClient.get(url);
     },
-    seach(searchName){
+
+    search(searchName){
         const url = `/products/search?keyword=${searchName}`;
         return axiosClient.get(url);
     },
+    searchPagation(searchName, sortBy, sortDir, pageNo){
+        const url = `/products/searching?sortDir=${sortDir}&sortBy=${sortBy}&keyword=${searchName}&pageNo=${pageNo}`;
+        return axiosClient.get(url);
+
+    },
+
     deactive(id){
         const url = `/product-deactive/${id}`;
         return axiosAdmin.put(url);

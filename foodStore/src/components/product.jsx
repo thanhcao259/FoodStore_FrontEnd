@@ -10,16 +10,15 @@ import Loading from "./Loading";
 
 function Product(){
 
-    const [listCategory, setListCategory] = useState('');
-    const [listProduct, setListProducts] = useState('');
     const [sortDir, setSortDir] = useState("default");
     const [sortBy, setSortBy] = useState("id");
     const [pageNo, setPageNo] = useState(0);
     const [pageNumb, setPageNumb] = useState('')
     
-    
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
+    const [listCategory, setListCategory] = useState('');
+    const [listProduct, setListProducts] = useState('');
 
     useEffect(() => {
         fetchData();
@@ -96,7 +95,7 @@ function Product(){
                                 <div class="row">
                                     <div class="col-lg-4 col-md-5">
                                         <div class="filter__sort">
-                                            <span>Lọc theo giá</span>
+                                            <span>Sắp xếp theo giá</span>
                                             <select onChange={handleSelected} style={{ marginLeft: '10px'}}>
                                                 <option value="Default">Mặc định</option>
                                                 <option value="asc">Tăng dần</option>
@@ -122,7 +121,8 @@ function Product(){
                                                     <div class="col-lg-4 col-md-6 col-sm-6" key={item.id}>
                                                         <Link to={`/shop-details/${item.id}`} style={{ textDecoration: 'none' }}>
                                                             <div class="product__item">
-                                                                <div class="product__item__pic product__discount__item__pic set-bg" style={{backgroundImage: `url(${item.urlImage})`}}>
+                                                                <div class="product__item__pic product__discount__item__pic set-bg" 
+                                                                style={{backgroundImage: `url(${item.urlImage})`}}>
                                                                     {/* <ul class="product__item__pic__hover">
                                                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                                                         <li><a href="#"><i class="fa fa-retweet"></i></a></li>
