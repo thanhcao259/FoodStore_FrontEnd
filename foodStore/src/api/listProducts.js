@@ -42,13 +42,8 @@ const listProducts= {
         return axiosClient.get(url);
 
     },
-
-    deactive(id){
-        const url = `/product-deactive/${id}`;
-        return axiosAdmin.put(url);
-    },
-    active(id){
-        const url = `/product-active/${id}`;
+    changeStatus(id){
+        const url =`/product-change-status/${id}`;
         return axiosAdmin.put(url);
     }
 };

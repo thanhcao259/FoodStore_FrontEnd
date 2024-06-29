@@ -87,8 +87,8 @@ function AdminOrders(){
        
     const columns = [
         {
-            name: 'Id',
-            selector: row => row.id,
+            name: 'Idenity',
+            selector: row => row.identity,
             sortable: true,
         },
         {

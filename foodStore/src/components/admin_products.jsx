@@ -27,19 +27,20 @@ function AdminProducts(){
         }
     };
 
-    const handleDeactive = async (id) => {
+    // const handleDeactive = async (id) => {
+    //     try {
+    //         console.log("get prod id: ", id);
+    //         await listProducts.active(id);
+    //         fetchData();
+    //         toast.success("Deactive product success");
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error("Deactive product failed");
+    //     }
+    // }
+    const handleChangeStatus = async (id) => {
         try {
-            await listProducts.deactive(id);
-            fetchData();
-            toast.success("Deactive product success");
-        } catch (error) {
-            console.log(error);
-            toast.error("Deactive product failed");
-        }
-    }
-    const handleActive = async (id) => {
-        try {
-            await listProducts.active(id);
+            await listProducts.changeStatus(id);
             fetchData();
             toast.success("Active product success");
         } catch (error) {
@@ -66,9 +67,9 @@ function AdminProducts(){
                         <EditIcon sx={{ color: '#1976d2' }} />
                     </IconButton>
                 </Link>
-                { row.status ? (<IconButton aria-label="deactive" onClick={() => handleDeactive(row.id)}>
+                { row.status ? (<IconButton aria-label="deactive" onClick={() => handleChangeStatus(row.id)}>
                     <DeleteIcon sx={{ color: 'red' }} />
-                </IconButton>) : (<IconButton aria-label="active" onClick={() => handleActive(row.id)}>
+                </IconButton>) : (<IconButton aria-label="active" onClick={() => handleChangeStatus(row.id)}>
                 <CheckCircle sx={{ color: 'green' }} />
             </IconButton>)}
                 

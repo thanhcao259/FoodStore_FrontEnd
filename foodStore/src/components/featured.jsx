@@ -20,7 +20,7 @@ function Featured(){
 
     const fetchData = async () => {
         try{
-            const response = await listProducts.get();
+            const response = await listProducts.getAll();
             setProducts(response.slice(0, 8));
             setLoading(false);
         } catch (error) {

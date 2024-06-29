@@ -34,14 +34,6 @@ function AddProduct(){
                 setImagePreview(reader.result);
             }
         }; reader.readAsDataURL(imgFile);
-        // setImage(e.target.files[0]);
-        // const reader = new FileReader();
-        // reader.onload = () => {
-        //     if (reader.readyState === 2) {
-        //         setImagePreview(reader.result);
-        //     }
-        // };
-        // reader.readAsDataURL(e.target.files[0]);
     }
     
     useEffect(() => {
