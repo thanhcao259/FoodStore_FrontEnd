@@ -9,6 +9,7 @@ import Footer from './components/footer';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import { ToastContainer } from 'react-toastify';
+import Province from './components/delivery/province';
 
 
 function Home() {
@@ -19,6 +20,7 @@ function Home() {
       <Hero/>
       <Categories/>
       <Featured/>
+      <Province/>
       <Footer/>
     </div>
   );
