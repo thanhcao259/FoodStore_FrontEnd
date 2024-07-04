@@ -20,7 +20,6 @@ function Home() {
       <Hero/>
       <Categories/>
       <Featured/>
-      <Province/>
       <Footer/>
     </div>
   );

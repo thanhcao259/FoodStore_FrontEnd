@@ -7,6 +7,7 @@ import Breadcrumb from './components/breadcrumb';
 import CheckoutSection from './components/checkout_section';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+import Province from './components/delivery/province';
 
 function CheckOut(){
     return(
@@ -16,6 +17,7 @@ function CheckOut(){
             <ShopHero/>
             <Breadcrumb/>
             <CheckoutSection/>
+            {/* <Province/> */}
             <Footer/>
         </div>
     )
