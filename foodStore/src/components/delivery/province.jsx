@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import listGHN from "../../api/listGHN";
+import profileApi from "../../api/profileApi";
+import { format } from 'date-fns';
 
 function Province() {
   const [province, setProvinces] = useState([]);
@@ -12,11 +14,15 @@ function Province() {
   const [selectShift, setSelectShift] = useState("");
   const [service, setService] = useState([]);
   const [selectService, setSelecteService] = useState("");
+  const [username, setUsername] = useState('');
+  const [phone, setPhone] = useState('');
+  const [orderInfo, setOrderInfo] = useState([]);
 
   useEffect(() => {
     fetchProvince();
     fetchShift();
     fetchService();
+    fetchInfoCustomers();
   }, []);
 
   const fetchProvince = async () => {
@@ -114,7 +120,17 @@ function Province() {
       console.log("Err: ", err);
     }
   };
-  const handleProvinceChange = (e) => {
+
+  const fetchInfoCustomers = async () => {
+    try {
+      const infoResponse = await profileApi.get();
+      // console.log("info ", infoResponse.username, infoResponse.phone);
+      setUsername(infoResponse.username); setPhone(infoResponse.phone);
+    } catch (err){
+      console.log("Err during get info customer");
+    }
+  }
+   const handleProvinceChange = (e) => {
     const provinceId = e.target.value;
     setSelectProvince(provinceId);
     setSelectDistrict("");
@@ -134,16 +150,25 @@ function Province() {
   };
 
   const handleServiceChange = (e) => {
-    selectService(e.target.value);
+    setSelecteService(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Username: ", username);
+    console.log("Phone: ", phone);
+    
     try {
-        const formData = new FormData();
-        formData.append("to_ward_code", selectWard);
-        formData.append("to_district_id", selectDistrict);
-        formData.append("")
+      const response = await listGHN.createOrder(username, phone, selectProvince, selectDistrict, selectWard);
+      console.log("response order: ", response.data);
+      const formattedDeliveryTime = format(response.data.expected_delivery_time, 'yyyy MMMM dd HH:mm');
+      console.log("Fmt ", formattedDeliveryTime)
+      setOrderInfo({
+        orderCode: response.data.order_code,
+        expectedTime: formattedDeliveryTime,
+        totalFee: response.data.total_fee,
+      })
+      console.log("rsl: ", orderInfo.orderCode)
     // console.log("Province ", selectProvince);
     // console.log("District ", selectDistrict);
     } catch (err) {
@@ -213,6 +238,16 @@ function Province() {
 
         <button type="submit">Submit</button>
       </form>
+
+      {/* Hiển thị thông tin đơn hàng nếu có */}
+      {orderInfo && (
+            <div>
+                <h3>Thông tin đơn hàng:</h3>
+                <p>Mã đơn hàng: {orderInfo.orderCode}</p>
+                <p>Thời gian giao hàng dự kiến: {orderInfo.expectedTime}</p>
+                <p>Tổng phí: {orderInfo.totalFee}</p>
+            </div>
+        )}
     </div>
   );
 }
