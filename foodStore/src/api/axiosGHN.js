@@ -2,10 +2,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { getToken } from "../utils/auth";
 
-const API_GHN = "c5e34783-36b0-11ef-b3e6-26fb3de580b4";
+const API_GHN = "d5cf335b-36af-11ef-8e53-0a00184fe694";
 
 const axiosGHN = axios.create({
-    baseURL: "https://online-gateway.ghn.vn/shiip/public-api",
+    baseURL: "https://dev-online-gateway.ghn.vn/shiip/public-api/",
     headers:{
         'Token': API_GHN,
         'Content-Type': 'application/json',

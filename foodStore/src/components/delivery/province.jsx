@@ -61,11 +61,11 @@ function Province() {
     try {
       district_id = Number(district_id);
       const response = await listGHN.getWard(district_id);
-      if(response){
+      if (response) {
         const wardList = response.map((item) => ({
           WardCode: item.WardCode,
           WardName: item.WardName,
-        }))
+        }));
         setWards(wardList);
         // console.log("Ward: ", wardList);
       } else {
@@ -73,116 +73,146 @@ function Province() {
       }
     } catch (err) {
       console.log("Err: ", err);
-    };
-  };
-
-  const fetchShift = async()=>{
-    try {
-      const response = await listGHN.getShift();
-      if(response){
-          const shiftResponse = response.map( (item) => ({
-          id: item.id, title: item.title,
-        }));
-        setShift(shiftResponse); console.log("List shift",shiftResponse);
-      } else {
-        console.log("Not found data");
-      }
-      
-    } catch (err) {
-      console.log("Err fetching shift: ",err);
     }
   };
 
-  const fetchService = async (toDistrict) => {
+  const fetchShift = async () => {
+    try {
+      const response = await listGHN.getShift();
+      if (response) {
+        const shiftResponse = response.map((item) => ({
+          id: item.id,
+          title: item.title,
+        }));
+        setShift(shiftResponse);
+        // console.log("List shift",shiftResponse);
+      } else {
+        console.log("Not found data");
+      }
+    } catch (err) {
+      console.log("Err fetching shift: ", err);
+    }
+  };
+
+  const fetchService = async () => {
     try {
       // fromDistric = Number(fromDistric);
-      toDistrict = Number(toDistrict);
-      const response = await listGHN.getTypeService( toDistrict);
-      if(response){
+      // toDistrict = Number(toDistrict);
+      const response = await listGHN.getTypeService();
+      if (response) {
         const list = response.data.map((item) => ({
           service_id: item.service_id,
           short_name: item.short_name,
           service_type_id: item.service_type_id,
-        }))
+        }));
         setService(list);
-        console.log("Service: ", list);
+        // console.log("Service: ", list);
       } else {
         console.log("Not found ward");
       }
     } catch (err) {
       console.log("Err: ", err);
-    };
-  }
+    }
+  };
   const handleProvinceChange = (e) => {
     const provinceId = e.target.value;
     setSelectProvince(provinceId);
-    setSelectDistrict('');
+    setSelectDistrict("");
     fetchDistrict(provinceId);
-    console.log(`province ${provinceId}`)
   };
   const handleDistrictChange = (e) => {
     const districtId = e.target.value;
     setSelectDistrict(districtId);
-    setSelectWard('');
+    setSelectWard("");
     fetchWard(districtId);
   };
   const handleWardChange = (e) => {
     setSelectWard(e.target.value);
-  }
+  };
   const handleShiftChange = (e) => {
     setSelectShift(e.target.value);
-  }
+  };
 
   const handleServiceChange = (e) => {
     selectService(e.target.value);
-  }
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const formData = new FormData();
+        formData.append("to_ward_code", selectWard);
+        formData.append("to_district_id", selectDistrict);
+        formData.append("")
+    // console.log("Province ", selectProvince);
+    // console.log("District ", selectDistrict);
+    } catch (err) {
+      console.log("Err during submit ", err);
+    }
+
+  };
   return (
     <div>
-      <select  value={selectProvince}  onChange={handleProvinceChange}>
-        <option value="">-- Chọn Tỉnh/Thành phố --</option>
-        {province.map((item) => (
-          <option key={item.ProvinceID} value={item.ProvinceID} selected="selected">
-            {item.ProvinceName}
-          </option>
-        ))}
-      </select>
+      <form method="post" encType="multipart/form-data" onClick={handleSubmit}>
+        <select value={selectProvince} onChange={handleProvinceChange}>
+          <option value="">-- Chọn Tỉnh/Thành phố --</option>
+          {province.map((item) => (
+            <option
+              key={item.ProvinceID}
+              value={item.ProvinceID}
+              selected="selected"
+            >
+              {item.ProvinceName}
+            </option>
+          ))}
+        </select>
 
-      <select  value={selectDistrict}  onChange={handleDistrictChange} >
-        <option value="">-- Chọn Quận/Huyện --</option>
-        {district.map((item) => (
-          <option key={item.DistrictID} value={item.DistrictID} disabled={!handleProvinceChange} >
-            {item.DistrictName}
-          </option>
-        ))}
-      </select>
-      
-      <select  value={selectWard}  onChange={handleWardChange} >
-        <option value="">-- Chọn Xã/phường --</option>
-        {
-          ward.map((item) => (
-          <option key={item.WardCode} value={item.WardCode} disabled={!handleDistrictChange} >
-            {item.WardName}
-          </option>
-        ))}
-      </select>
+        <select value={selectDistrict} onChange={handleDistrictChange}>
+          <option value="">-- Chọn Quận/Huyện --</option>
+          {district.map((item) => (
+            <option
+              key={item.DistrictID}
+              value={item.DistrictID}
+              disabled={!handleProvinceChange}
+            >
+              {item.DistrictName}
+            </option>
+          ))}
+        </select>
 
-      <select value={selectShift} onChange={handleShiftChange}>
-        <option value=""> --- Chọn ca nhận hàng --- </option>
-        {
-          shift.map((item) => (
-            <option key={item.id} value={item.id}>{item.title}</option>
-          ))
-        }
-      </select>
-      <select value={selectService} onChange={handleServiceChange}>
-        <option value=""> --- Chọn dịch vụ --- </option>
-        {
-          service.map((item) => (
-            <option key={item.service_id} value={item.service_id}> {item.short_name} </option>
-          ))
-        }
-      </select>
+        <select value={selectWard} onChange={handleWardChange}>
+          <option value="">-- Chọn Xã/phường --</option>
+          {ward.map((item) => (
+            <option
+              key={item.WardCode}
+              value={item.WardCode}
+              disabled={!handleDistrictChange}
+            >
+              {item.WardName}
+            </option>
+          ))}
+        </select>
+
+        <select value={selectShift} onChange={handleShiftChange}>
+          <option value=""> --- Chọn ca nhận hàng --- </option>
+          {shift.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.title}
+            </option>
+          ))}
+        </select>
+        <select value={selectService} onChange={handleServiceChange}>
+          <option value=""> --- Chọn dịch vụ --- </option>
+          {service.map((item) => (
+            <option key={item.service_id} value={item.service_id}>
+              {" "}
+              {item.service_id} - {item.short_name}
+            </option>
+          ))}
+        </select>
+
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
