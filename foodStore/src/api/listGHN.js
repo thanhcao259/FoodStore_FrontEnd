@@ -58,7 +58,7 @@ const listGHN = {
             "to_district": 3695
         })
     },
-    createOrder: async (name, phone, province, district, ward) => {
+    createOrder: async (name, items, province, district, ward) => {
         const url = `v2/shipping-order/create`;
         return axiosGHN.post(url, {
             "payment_type_id": 1,
@@ -70,12 +70,12 @@ const listGHN = {
             "from_ward_code": "90742",
             "from_province_id": 202,
 
-            "cod_amount": 300000,
+            "cod_amount": 0,
             "content": "Delivery test",
             "weight": 2000,
             "length": 50,
             "width": 50,
-            "height": 100,
+            "height": 30,
             "pick_station_id": null,
             "deliver_station_id": null,
             "insurance_value": 0, //500000
@@ -90,6 +90,7 @@ const listGHN = {
             "to_province_id": province,
             "to_district_id": district,
             "to_ward_code": ward,
+            "items": items,
         })
     }
 

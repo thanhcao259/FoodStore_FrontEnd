@@ -33,6 +33,8 @@ function CheckoutSection() {
   const [service, setService] = useState([]);
   const [selectService, setSelecteService] = useState("");
   const [orderInfo, setOrderInfo] = useState([]);
+  const [items, setItems] = useState([]);
+  const [vat, setVAT] = useState('');
 
   const currentPage = useLocation().pathname;
   const navigate = useNavigate();
@@ -43,6 +45,7 @@ function CheckoutSection() {
 
   useEffect(() => {
     fetchData();
+    // fetchItems();
     fetchProvince();
     fetchService();
   }, []);
@@ -61,7 +64,10 @@ function CheckoutSection() {
       response.forEach((item) => {
         sumPrice += item.totalPrice;
       });
+      const vat = sumPrice*0.08;
       setTotalPrice(sumPrice);
+      setVAT(vat);
+      fetchItems();
     } catch (error) {
       console.log(error);
     }
@@ -145,6 +151,31 @@ function CheckoutSection() {
     }
   };
 
+  const fetchItems = async()=>{
+    try{
+      console.log("start fetch items");
+      if(listCartItems){
+        const listData = listCartItems.map((item) => ({
+          name: item.name,
+          code: item.productIdentity,
+          quantity: item.quantity,
+          price: item.totalPrice, 
+          image: item.urlImage,
+          length: 50, // Giả sử bạn có chiều dài của sản phẩm
+          width: 50, // Giả sử bạn có chiều rộng của sản phẩm
+          height: 50, // Giả sử bạn có chiều cao của sản phẩm
+          weight: 50, // Giả sử bạn có trọng lượng của sản phẩm
+          category: {
+            level1: item.category
+          }
+        })) 
+        setItems(listData);
+        console.log("cart items: ", listData);
+      } else { console.log("Not found list item");}
+    } catch (err){
+      console.log("Err fetching cart items: ", err);
+    }
+  };
   const formattedAmount = new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
@@ -162,7 +193,7 @@ function CheckoutSection() {
     }
   };
 
-  const handleSelected = (e) => {
+  const handleSelectedAddress = (e) => {
     setAddress(e.target.value);
   };
 
@@ -172,7 +203,7 @@ function CheckoutSection() {
 
   const handleOrder = async () => {
     setLoading(true);
-    if (payment === 1) {
+    if (payment === 1) { //pay by cash
       try {
         await orderApi.add(address, userInfo.fullName, userInfo.phone);
         toast.success("Order success");
@@ -187,7 +218,7 @@ function CheckoutSection() {
           address,
           userInfo.fullName,
           userInfo.phone,
-          totalPrice
+          totalPrice+vat,
         );
         if (urlVNPay) {
           window.location = urlVNPay;
@@ -223,7 +254,7 @@ function CheckoutSection() {
     console.log("username", username);
     try {
         
-    const response = await listGHN.createOrder( userInfo.username, userInfo.phone, selectProvince, selectDistrict, selectWard);
+    const response = await listGHN.createOrder( userInfo.username, items, selectProvince, selectDistrict, selectWard);
     console.log("response order: ", response.data);
     const formattedDeliveryTime = format( response.data.expected_delivery_time,"yyyy MMMM dd HH:mm");
     console.log("Fmt ", formattedDeliveryTime);
@@ -251,13 +282,8 @@ function CheckoutSection() {
                   <div class="checkout__input">
                     {currentPage === "/check-out" ? (
                       <>
-                        <p>
-                          Địa chỉ<span>*</span>
-                        </p>
-                        <select
-                          style={{ width: "756px" }}
-                          onChange={handleSelected}
-                        >
+                        <p> Địa chỉ<span>*</span> </p>
+                        <select style={{ width: "756px" }}  onChange={handleSelectedAddress}>
                           {listAddress &&
                             listAddress.map((item) => (
                               <option key={item.id} value={item.id}>
@@ -266,10 +292,7 @@ function CheckoutSection() {
                             ))}
                         </select>
                         <Link to="/check-out/create-address">
-                          <button
-                            className="site-btn"
-                            style={{ marginTop: "10px" }}
-                          >
+                          <button className="site-btn" style={{ marginTop: "10px" }}>
                             Thêm địa chỉ mới
                           </button>
                         </Link>
@@ -325,10 +348,7 @@ function CheckoutSection() {
                       ))}
                     </select>
 
-                    <select
-                      value={selectService}
-                      onChange={handleServiceChange}
-                    >
+                    <select value={selectService} onChange={handleServiceChange}>
                       <option value=""> --- Chọn dịch vụ --- </option>
                       {service.map((item) => (
                         <option key={item.service_id} value={item.service_id}>
@@ -337,9 +357,11 @@ function CheckoutSection() {
                         </option>
                       ))}
                     </select>
+
                     <button type="submit" onClick={handleGHN}>Giao hàng</button>
                   </form>
                 </div>
+
                 <div class="col-lg-4 col-md-6">
                   <div class="checkout__order" style={{ width: "440px" }}>
                     <h4>Đơn của bạn</h4>
@@ -351,25 +373,31 @@ function CheckoutSection() {
                         listCartItems.map((item) => (
                           <li>
                             {item.name}
-                            <span>
-                              {formattedAmount.format(item.totalPrice)}
-                            </span>
+                            <span> {formattedAmount.format(item.totalPrice)} </span>
                           </li>
                         ))}
                     </ul>
 
                     <div class="checkout__order__total">
-                      Tổng tiền{" "}
+                      Tổng {" "}
                       <span>{formattedAmount.format(totalPrice)}</span>
                     </div>
                     <div class="checkout__order__total">
+                      VAT{" "}
+                      <span>{formattedAmount.format(vat)}</span>
+                    </div>
+                    <div class="checkout__order__total">
                       Phí vận chuyển{" "}
-                      <span>{formattedAmount.format(orderInfo.totalFee)}</span>
+                      {orderInfo.totalFee ? (<span>{formattedAmount.format(orderInfo.totalFee)}</span>)
+                        :(<span>{formattedAmount.format(0)}</span>)}
+                      
                     </div>
 
                     <div class="checkout__order__total">
                       Tổng hóa đơn{" "}
-                      <span>{formattedAmount.format(totalPrice + orderInfo.totalFee)}</span>
+                      {orderInfo.totalFee ? (<span>{formattedAmount.format(totalPrice + orderInfo.totalFee+vat)}</span>) 
+                        : (<span>{formattedAmount.format(totalPrice + vat)}</span>)}
+                      
                     </div>
 
                     <div class="checkout__order__total">
@@ -388,11 +416,7 @@ function CheckoutSection() {
                         </select>
                       </label>
                     </div>
-                    <button
-                      class="site-btn"
-                      onClick={handleOrder}
-                      disabled={isLoading}
-                    >
+                    <button class="site-btn" onClick={handleOrder} disabled={isLoading} >
                       Đặt hàng
                     </button>
                   </div>
