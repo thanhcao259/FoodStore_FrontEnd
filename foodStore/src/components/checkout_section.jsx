@@ -17,7 +17,7 @@ import { format } from "date-fns";
 function CheckoutSection() {
   const [listCartItems, setListCartItems] = useState([]);
   const [listAddress, setListAddress] = useState([]);
-  const [totalPrice, setTotalPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
   const [newAddress, setNewAddress] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [address, setAddress] = useState("");
@@ -33,22 +33,21 @@ function CheckoutSection() {
   const [service, setService] = useState([]);
   const [selectService, setSelecteService] = useState("");
   const [orderInfo, setOrderInfo] = useState([]);
-  const [items, setItems] = useState([]);
   const [vat, setVAT] = useState('');
 
   const currentPage = useLocation().pathname;
   const navigate = useNavigate();
 
-  const [formGHN, setFormGHN] = useState({selecteProvince: '',
-    selecteDistrict: '',selectWard: '', selectService:''});
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     fetchData();
-    // fetchItems();
     fetchProvince();
     fetchService();
   }, []);
+
+  useEffect(()=>{
+  }, [totalPrice])
 
   const fetchData = async () => {
     try {
@@ -67,7 +66,7 @@ function CheckoutSection() {
       const vat = sumPrice*0.08;
       setTotalPrice(sumPrice);
       setVAT(vat);
-      fetchItems();
+      // fetchItems();
     } catch (error) {
       console.log(error);
     }
@@ -151,31 +150,50 @@ function CheckoutSection() {
     }
   };
 
-  const fetchItems = async()=>{
-    try{
-      console.log("start fetch items");
-      if(listCartItems){
-        const listData = listCartItems.map((item) => ({
-          name: item.name,
-          code: item.productIdentity,
-          quantity: item.quantity,
-          price: item.totalPrice, 
-          image: item.urlImage,
-          length: 50, // Giả sử bạn có chiều dài của sản phẩm
-          width: 50, // Giả sử bạn có chiều rộng của sản phẩm
-          height: 50, // Giả sử bạn có chiều cao của sản phẩm
-          weight: 50, // Giả sử bạn có trọng lượng của sản phẩm
-          category: {
-            level1: item.category
-          }
-        })) 
-        setItems(listData);
-        console.log("cart items: ", listData);
-      } else { console.log("Not found list item");}
-    } catch (err){
-      console.log("Err fetching cart items: ", err);
+  const listData = listCartItems.map((item) => ({
+    name: item.name,
+    code: item.productIdentity,
+    quantity: item.quantity,
+    price: item.totalPrice, 
+    image: item.urlImage,
+    length: 50, // Giả sử bạn có chiều dài của sản phẩm
+    width: 50, // Giả sử bạn có chiều rộng của sản phẩm
+    height: 50, // Giả sử bạn có chiều cao của sản phẩm
+    weight: 50, // Giả sử bạn có trọng lượng của sản phẩm
+    category: {
+      level1: item.category
     }
-  };
+  })) 
+  // setItems(listData);
+  console.log("cart items1: ", listData);
+
+
+  // const fetchItems = async()=>{
+  //   try{
+  //     console.log("start fetch items");
+  //     if(listCartItems.length > 0){
+  //       const listData = listCartItems.map((item) => ({
+  //         name: item.name,
+  //         code: item.productIdentity,
+  //         quantity: item.quantity,
+  //         price: item.totalPrice, 
+  //         image: item.urlImage,
+  //         length: 50, // Giả sử bạn có chiều dài của sản phẩm
+  //         width: 50, // Giả sử bạn có chiều rộng của sản phẩm
+  //         height: 50, // Giả sử bạn có chiều cao của sản phẩm
+  //         weight: 50, // Giả sử bạn có trọng lượng của sản phẩm
+  //         category: {
+  //           level1: item.category
+  //         }
+  //       })) 
+  //       setItems(listData);
+  //       console.log("cart items: ", listData);
+  //     } else { console.log("Not found list item");}
+  //   } catch (err){
+  //     console.log("Err fetching cart items: ", err);
+  //   }
+  // };
+  
   const formattedAmount = new Intl.NumberFormat("vi-VN", {
     style: "currency",
     currency: "VND",
@@ -203,23 +221,34 @@ function CheckoutSection() {
 
   const handleOrder = async () => {
     setLoading(true);
+    // debugger
     if (payment === 1) { //pay by cash
       try {
-        await orderApi.add(address, userInfo.fullName, userInfo.phone);
+        await orderApi.add(address, userInfo.username, userInfo.phone);
         toast.success("Order success");
         navigate("/Home");
       } catch (error) {
         console.log(error);
         toast.error("Order failed");
       }
-    } else {
+    } 
+    else { //VnPay
       try {
+        debugger
+        // setTotalPrice(pre=>pre+vat);
+        let finalPrice = totalPrice + vat;
+        if(orderInfo.totalFee && orderInfo.totalFee>0){
+          // finalPrice = finalPrice + orderInfo.totalFee;
+          // setTotalPrice(totalPrice+vat+orderInfo.totalFee);
+        } 
+        // console.log("total after: ", finalPrice);
         const urlVNPay = await orderApi.addOnl(
           address,
           userInfo.fullName,
           userInfo.phone,
-          totalPrice+vat,
+          finalPrice,
         );
+
         if (urlVNPay) {
           window.location = urlVNPay;
         }
@@ -253,15 +282,15 @@ function CheckoutSection() {
     const username = userInfo.username;
     console.log("username", username);
     try {
-        
-    const response = await listGHN.createOrder( userInfo.username, items, selectProvince, selectDistrict, selectWard);
-    console.log("response order: ", response.data);
-    const formattedDeliveryTime = format( response.data.expected_delivery_time,"yyyy MMMM dd HH:mm");
-    console.log("Fmt ", formattedDeliveryTime);
-    setOrderInfo({
-        orderCode: response.data.order_code,
-        expectedTime: formattedDeliveryTime,
-        totalFee: response.data.total_fee,
+      // const response = await listGHN.createOrder( userInfo.username, items, selectProvince, selectDistrict, selectWard);
+      const response = await listGHN.createOrder( userInfo.username, listData, selectProvince, selectDistrict, selectWard);
+      console.log("response order: ", response.data);
+      const formattedDeliveryTime = format( response.data.expected_delivery_time,"yyyy MMMM dd HH:mm");
+      console.log("Fmt ", formattedDeliveryTime);
+      setOrderInfo({
+          orderCode: response.data.order_code,
+          expectedTime: formattedDeliveryTime,
+          totalFee: response.data.total_fee,
     });
       // console.log("Province ", selectProvince);
       // console.log("District ", selectDistrict);
