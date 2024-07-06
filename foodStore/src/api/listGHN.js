@@ -58,7 +58,7 @@ const listGHN = {
             "to_district": 3695
         })
     },
-    createOrder: async (name, items, province, district, ward) => {
+    createOrder: async (name, items, address, province, district, ward) => {
         const url = `v2/shipping-order/create`;
         return axiosGHN.post(url, {
             "payment_type_id": 1,
@@ -86,7 +86,7 @@ const listGHN = {
 
             "to_name": name,
             "to_phone": "0838528503",
-            "to_address": "76/3-5-7 đường số 7 kp3, p, Thủ Đức, Hồ Chí Minh, Việt Nam", //fake info 
+            "to_address": address, //fake info 
             "to_province_id": province,
             "to_district_id": district,
             "to_ward_code": ward,

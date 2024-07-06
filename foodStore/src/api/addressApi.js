@@ -8,6 +8,10 @@ const addressApi = {
     add(newAddress){
         const url = '/user/address';
         return axiosClient.post(url, {address: `${newAddress}`});
+    }, 
+    getById(id){
+        const url = `/user/address/${id}`;
+        return axiosClient.get(url);
     }
 };
 

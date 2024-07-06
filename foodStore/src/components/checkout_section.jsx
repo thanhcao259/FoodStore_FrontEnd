@@ -34,6 +34,7 @@ function CheckoutSection() {
   const [selectService, setSelecteService] = useState("");
   const [orderInfo, setOrderInfo] = useState([]);
   const [vat, setVAT] = useState('');
+  const [addressName, setAddresName] = useState("");
 
   const currentPage = useLocation().pathname;
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ function CheckoutSection() {
   }, []);
 
   useEffect(()=>{
-  }, [totalPrice])
+  }, [totalPrice]);
 
   const fetchData = async () => {
     try {
@@ -163,7 +164,8 @@ function CheckoutSection() {
     category: {
       level1: item.category
     }
-  })) 
+  }));
+
   // setItems(listData);
   // console.log("cart items1: ", listData);
 
@@ -211,9 +213,16 @@ function CheckoutSection() {
     }
   };
 
-  const handleSelectedAddress = (e) => {
-    setAddress(e.target.value);
+  const handleSelectedAddress = async (e) => {
+    const addrId = e.target.value;
+    setAddress(addrId);
+    const response = await addressApi.getById(addrId);
+    // console.log("address ", response);
+    setAddresName(response);
   };
+
+  // console.log("add name1", addressName);
+
 
   const handleSelectedPayment = (e) => {
     setPayment(e.target.value);
@@ -243,10 +252,7 @@ function CheckoutSection() {
         } 
         // console.log("total after: ", finalPrice);
         const urlVNPay = await orderApi.addOnl(
-          address,
-          userInfo.fullName,
-          userInfo.phone,
-          finalPrice,
+          address, userInfo.fullName, userInfo.phone, finalPrice,
         );
 
         if (urlVNPay) {
@@ -282,8 +288,7 @@ function CheckoutSection() {
     const username = userInfo.username;
     console.log("username", username);
     try {
-      // const response = await listGHN.createOrder( userInfo.username, items, selectProvince, selectDistrict, selectWard);
-      const response = await listGHN.createOrder( userInfo.username, listData, selectProvince, selectDistrict, selectWard);
+      const response = await listGHN.createOrder( userInfo.username, listData, addressName, selectProvince, selectDistrict, selectWard);
       console.log("response order: ", response.data);
       const formattedDeliveryTime = format( response.data.expected_delivery_time,"yyyy MMMM dd HH:mm");
       console.log("Fmt ", formattedDeliveryTime);
@@ -309,11 +314,11 @@ function CheckoutSection() {
               <div class="row">
                 <div class="col-lg-8 col-md-6">
                   <div class="checkout__input">
-                    {currentPage === "/check-out" ? (
+                    {/* {currentPage === "/check-out" ? (
                       <>
                         <p> Địa chỉ<span>*</span> </p>
                         <select style={{ width: "756px" }}  onChange={handleSelectedAddress}>
-                          {listAddress &&
+                          {listAddress.length > 0  &&
                             listAddress.map((item) => (
                               <option key={item.id} value={item.id}>
                                 {item.address}
@@ -336,58 +341,94 @@ function CheckoutSection() {
                           placeholder="Nhập địa chỉ mới"
                           onChange={(e) => setNewAddress(e.target.value)}
                         />
-                        <button
-                          className="site-btn"
-                          style={{ marginTop: "10px" }}
-                          onClick={handleAddAddress}
-                          disabled={isLoading}
-                        >
+                        <button className="site-btn" style={{ marginTop: "10px" }}
+                          onClick={handleAddAddress}  disabled={isLoading} >
                           Tạo địa chỉ mới
                         </button>
                       </>
-                    )}
+                    )} */}
                   </div>
 
-                  <form  method="post" encType="multipart/form-data">
-                    <select value={selectProvince} onChange={handleProvinceChange} >
-                      <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                      {province.map((item) => (
-                        <option key={item.ProvinceID} value={item.ProvinceID} selected="selected">
-                          {item.ProvinceName}
-                        </option>
-                      ))}
-                    </select>
-
-                    <select value={selectDistrict} onChange={handleDistrictChange}>
-                      <option value="">-- Chọn Quận/Huyện --</option>
-                      {district.map((item) => (
-                        <option key={item.DistrictID} value={item.DistrictID} disabled={!handleProvinceChange}>
-                          {item.DistrictName}
-                        </option>
-                      ))}
-                    </select>
-
-                    <select value={selectWard} onChange={handleWardChange}>
-                      <option value="">-- Chọn Xã/phường --</option>
-                      {ward.map((item) => (
-                        <option key={item.WardCode} value={item.WardCode}
-                          disabled={!handleDistrictChange} >
-                          {item.WardName}
-                        </option>
-                      ))}
-                    </select>
-
-                    <select value={selectService} onChange={handleServiceChange}>
-                      <option value=""> --- Chọn dịch vụ --- </option>
-                      {service.map((item) => (
-                        <option key={item.service_id} value={item.service_id}>
-                          {" "}
-                          {item.service_id} - {item.short_name}
-                        </option>
-                      ))}
-                    </select>
-
-                    <button type="submit" onClick={handleGHN}>Giao hàng</button>
+                  <form className="form-container"  method="post" encType="multipart/form-data">
+                    <h2>Thông tin giao hàng</h2>
+                    <div className="form-group">
+                    {currentPage === "/check-out" ? (
+                        <>
+                          <label>Địa chỉ:</label>
+                          <select className="form-control"  onChange={handleSelectedAddress}>
+                            {listAddress.length > 0  &&
+                              listAddress.map((item) => (
+                                <option key={item.id} value={item.id}>
+                                  {item.address}
+                                </option>
+                              ))}
+                          </select>
+                          <Link to="/check-out/create-address">
+                            <button className="btn-submit" style={{ marginTop: "10px" }}>
+                              Thêm địa chỉ mới
+                            </button>
+                          </Link>
+                        </>
+                      ) : (
+                        <>
+                          <label>Địa chỉ mới</label>
+                          <input className="form-control" type="text" placeholder="Nhập địa chỉ mới"
+                            onChange={(e) => setNewAddress(e.target.value)}
+                          />
+                          <button className="btn-submit" style={{ marginTop: "10px" }}
+                            onClick={handleAddAddress}  disabled={isLoading} >
+                            Tạo địa chỉ mới
+                          </button>
+                        </>
+                      )}
+                      </div>
+                      <div className="form-group">
+                        <label>Tỉnh/Thành phố:</label>
+                        <select className="form-control" value={selectProvince} onChange={handleProvinceChange} >
+                          <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                          {province.map((item) => (
+                            <option key={item.ProvinceID} value={item.ProvinceID} selected="selected">
+                              {item.ProvinceName}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                      <label>Quận/Huyện:</label>
+                      <select className="form-control" value={selectDistrict} onChange={handleDistrictChange}>
+                        <option value="">-- Chọn Quận/Huyện --</option>
+                        {district.map((item) => (
+                          <option key={item.DistrictID} value={item.DistrictID} disabled={!handleProvinceChange}>
+                            {item.DistrictName}
+                          </option>
+                        ))}
+                      </select>
+                      </div>
+                      <div className="form-group">
+                      <label>Xã/phường:</label>
+                      <select className="form-control" value={selectWard} onChange={handleWardChange}>
+                        <option value="">-- Chọn Xã/phường --</option>
+                        {ward.map((item) => (
+                          <option key={item.WardCode} value={item.WardCode}
+                            disabled={!handleDistrictChange} >
+                            {item.WardName}
+                          </option>
+                        ))}
+                      </select>
+                      </div>
+                      <div className="form-group">
+                      <label>Dịch vụ:</label>
+                      <select className="form-control" value={selectService} onChange={handleServiceChange}>
+                        <option value=""> --- Chọn dịch vụ --- </option>
+                        {service.map((item) => (
+                          <option key={item.service_id} value={item.service_id}>
+                            {" "}
+                            {item.service_id} - {item.short_name}
+                          </option>
+                        ))}
+                      </select>
+                      </div>
+                      <button className="btn-submit" type="submit" onClick={handleGHN}>Giao hàng</button>
                   </form>
                 </div>
 
