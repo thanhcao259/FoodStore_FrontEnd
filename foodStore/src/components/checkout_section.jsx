@@ -165,7 +165,7 @@ function CheckoutSection() {
     }
   })) 
   // setItems(listData);
-  console.log("cart items1: ", listData);
+  // console.log("cart items1: ", listData);
 
 
   // const fetchItems = async()=>{
