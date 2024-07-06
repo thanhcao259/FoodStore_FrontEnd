@@ -202,6 +202,7 @@ function CheckoutSection() {
   });
 
   const handleAddAddress = async (e) => {
+    e.preventDefault();
     try {
       await addressApi.add(newAddress);
       navigate("/check-out");
@@ -221,7 +222,7 @@ function CheckoutSection() {
     setAddresName(response);
   };
 
-  // console.log("add name1", addressName);
+  console.log("add name1", addressName);
 
 
   const handleSelectedPayment = (e) => {
@@ -243,16 +244,14 @@ function CheckoutSection() {
     } 
     else { //VnPay
       try {
-        debugger
-        // setTotalPrice(pre=>pre+vat);
         let finalPrice = totalPrice + vat;
         if(orderInfo.totalFee && orderInfo.totalFee>0){
-          // finalPrice = finalPrice + orderInfo.totalFee;
+          finalPrice = finalPrice + orderInfo.totalFee;
           // setTotalPrice(totalPrice+vat+orderInfo.totalFee);
         } 
         // console.log("total after: ", finalPrice);
         const urlVNPay = await orderApi.addOnl(
-          address, userInfo.fullName, userInfo.phone, finalPrice,
+          address, userInfo.fullName, userInfo.phone, totalPrice, vat, orderInfo.totalFee
         );
 
         if (urlVNPay) {
@@ -356,6 +355,7 @@ function CheckoutSection() {
                         <>
                           <label>Địa chỉ:</label>
                           <select className="form-control"  onChange={handleSelectedAddress}>
+                          <option value="">-- Chọn địa chỉ nhận --</option>
                             {listAddress.length > 0  &&
                               listAddress.map((item) => (
                                 <option key={item.id} value={item.id}>

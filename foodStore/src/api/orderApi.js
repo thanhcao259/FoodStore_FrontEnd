@@ -10,8 +10,8 @@ const orderApi = {
             phone: `${phone}`
         });
     },
-    addOnl(idAddress, userName, phone, totalPrice){
-        const url = `/payment/pay?totalPrice=${totalPrice}&addressId=${idAddress}&name=${userName}&phone=${phone}`;
+    addOnl(idAddress, userName, phone, totalPrice, vat, feeShip){
+        const url = `/payment/pay?totalPrice=${totalPrice}&addressId=${idAddress}&name=${userName}&phone=${phone}&vat=${vat}&feeShip=${feeShip}`;
         return axiosClient.get(url);
     },
     getAll(){
