@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CheckCircle from "@mui/icons-material/CheckCircle";
+import { format } from "date-fns";
 
 function AdminProducts(){
     const [data, setData] = useState([]);
@@ -48,6 +49,13 @@ function AdminProducts(){
             toast.error("Active product failed");
         }
     }
+
+    // const formatDate = format( , 'yyyy MMMM dd - HH:mm');
+    const formatDate = new Intl.DateTimeFormat({
+        dateStyle: 'full',
+        timeStyle: 'long',
+        timeZone: 'Asia/Ho Chi Minh',
+    });
        
     const columns = [
         { name: 'Identity', selector: row => row.identity, sortable: true },
@@ -55,11 +63,11 @@ function AdminProducts(){
             <img src={row.urlImage} alt="image" style={{ width: '50px', height: '50px' }} />
         ),},
         { name: 'Tên', selector: row => row.name, sortable: true },
-        { name: 'Loại', selector: row => row.category_id, sortable: true },
+        { name: 'Cập nhật', selector: row => format(row.updatedDate, "yyyy MMMM dd - HH:mm"), sortable: true },
         { name: 'Số lượng', selector: row => row.available, sortable: true },
         { name: 'Giá', selector: row => row.price, sortable: true },
         { name: 'Giảm', selector: row => row.discount, sortable: true },
-        { name: 'Thông tin', selector: row => row.description, sortable: true },
+        // { name: 'Thông tin', selector: row => row.description, sortable: true },
         { name: 'Tác vụ', cell: (row) => (
             <Box sx={{ display: "flex", justifyContent: "space-between", width: "70px" }}>
                 <Link to={`/admin/product/edit/${row.id}`}>

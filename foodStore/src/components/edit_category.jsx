@@ -9,6 +9,7 @@ function EditCategory () {
     const [name, setName] = useState();
     const [description, setDescription] = useState();
     const [image, setImage] = useState();
+    const [identity, setIdentity] = useState("");
     const [imagePreview, setImagePreview] = useState('');
     const [isLoading, setLoading] = useState(false);
 
@@ -26,6 +27,7 @@ function EditCategory () {
             setName(response.name);
             setDescription(response.description);
             setImagePreview(response.urlImage);
+            setIdentity(response.identity);
         } catch (error) {
             console.log(error);
         }
@@ -54,6 +56,7 @@ function EditCategory () {
             const formData = new FormData();
             formData.append("name", name);
             formData.append("description", description);
+            formData.append("identity", identity);
             if(image){
                 formData.append("image", image);
             }
@@ -106,6 +109,10 @@ function EditCategory () {
                                 <div className="form-group">
                                     <label>Tên</label>
                                     <input type="text" name="Name" className="form-control" placeholder="Enter name" value={name} onChange={(e) => setName(e.target.value)}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Định danh</label>
+                                    <input type="text" name="Identity" className="form-control" placeholder="Enter identity" value={identity} onChange={(e) => setIdentity(e.target.value)}/>
                                 </div>
                                 <div className="form-group">
                                     <label>Mô tả</label>
