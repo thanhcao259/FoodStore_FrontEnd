@@ -29,6 +29,7 @@ import OrdersList from './OrderList';
 import OrderDetail from './OrderItem';
 import SendEmail from './components/sendEmail';
 import ResetPassword from './components/Reset_password';
+import VerifyRegister from './components/verify_register';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -48,6 +49,7 @@ root.render(
                     <Route path='check-out/create-address' element={<CheckOut/>}/>
                     <Route path='login' element={<Login/>}/>
                     <Route path='register' element={<Register/>}/>
+                    <Route path='verify_register' element={<VerifyRegister/>}/>
                     {/* <Route path='forgot-password' element={<ForgotPassword/>}/> */}
                     {/* <Route path='reset-password' element={<ResetNewPassword/>}/> */}
                     <Route path='profile' element={<Profile/>}/>
@@ -72,6 +74,7 @@ root.render(
                     <Route path='/*' element={<Error/>}/>
                     <Route path='/forgot-password/verifyMail' element={<SendEmail/>}/>
                     <Route path='/forgot-password/reset-password' element={<ResetPassword/>}/>
+                    
                 </Routes>
             </BrowserRouter>
         {/* </React.StrictMode> */}

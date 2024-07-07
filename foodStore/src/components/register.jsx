@@ -29,7 +29,8 @@ function Register(){
                     "email": email
                 };
                 registerApi.add(postData);
-                navigate('/login');
+                console.log("data ", postData);
+                navigate('/verify_register');
                 toast.success("Register success!");
             } catch (error) {
                 toast.error("Register failed");
