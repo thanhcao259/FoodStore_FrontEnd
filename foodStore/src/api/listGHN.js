@@ -72,7 +72,7 @@ const listGHN = {
 
             "cod_amount": 0,
             "content": "Delivery test",
-            "weight": 2000,
+            "weight": 1000,
             "length": 50,
             "width": 50,
             "height": 30,

@@ -288,6 +288,9 @@ function CheckoutSection() {
     console.log("username", username);
     try {
       const response = await listGHN.createOrder( userInfo.username, listData, addressName, selectProvince, selectDistrict, selectWard);
+      if(response.data.total_fee > 40000){
+        response.data.total_fee = 40000
+      }
       console.log("response order: ", response.data);
       const formattedDeliveryTime = format( response.data.expected_delivery_time,"yyyy MMMM dd HH:mm");
       console.log("Fmt ", formattedDeliveryTime);
