@@ -147,7 +147,7 @@ function ProductDetails() {
     const handleAddFavorite = async (e) => {
         e.preventDefault();
         const fetchIdentify = await identificationApi.get();
-        if (fetchIdentify === 'USER') {
+        if (fetchIdentify === 'CUSTOMER') {
             try {
                 await favoriteApi.add(id);
                 fetchFavourites();

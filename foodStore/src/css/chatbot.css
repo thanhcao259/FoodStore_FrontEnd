@@ -1,0 +1,198 @@
+.chatbot {
+	position: fixed;
+  	height: 100vh;
+	width: 100vw;
+}
+  
+.chatbot-container {
+	position: fixed;
+	bottom: 80px;
+	right: 20px;
+	margin-right: 50px;
+	width: 400px;
+	z-index: 1000;
+	
+}
+  
+.chatbot-toggle-button {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	background-color: #45a049;
+	color: white;
+	border: none;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	font-size: 30px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+  
+.chatbot-toggle-button:hover {
+	background-color: #4CAF50;
+}
+
+.react-chatbot-kit-chat-container {
+	width: 400px;
+}
+
+.react-chatbot-kit-chat-bot-message {
+	margin-left: 15px;
+	width: 275px;
+}
+
+.react-chatbot-kit-chat-bot-message {
+	background-color: #45a049;
+}
+
+.react-chatbot-kit-chat-bot-message-arrow {
+	border-right: 8px solid #45a049;
+}
+
+.react-chatbot-kit-chat-btn-send {
+    background-color: #45a049;
+    
+}
+
+.chatbot-name {
+	background-color: #e5dbdb;
+	width: 50px;
+	height: 50px;
+	display: grid;
+	place-items: center;
+	border-radius: 100%;
+}
+
+.login-btn {
+	border: solid #45a049;
+	border-radius: 20px;
+	padding: .5rem 1rem;
+	cursor: pointer;
+	margin-left: 3rem;
+}
+
+.register-btn {
+	border: solid #45a049;
+	border-radius: 20px;
+	padding: .5rem 1rem;
+	cursor: pointer;
+	margin-left: 1rem;
+}
+
+.category-list {
+	border: solid #45a049;
+	border-radius: 20px;
+	padding: .5rem 1rem;
+	cursor: pointer;
+	margin-left: 1rem;
+	margin-top: 5px;
+}
+
+.slider-container {
+	margin: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: #f7f7f7;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-container {
+	align-items: center;
+  }
+  
+  .slider-button {
+	
+	top: 50%;
+	transform: translateY(-50%);
+	background-color: #fff;
+	border: none;
+	padding: 5px 10px;
+	font-size: 18px;
+	cursor: pointer;
+  }
+  
+  .slider-button:hover {
+	background-color: #ddd;
+  }
+  
+  .slider-button.prev {
+	left: 10px;
+	margin-left: 120px;
+  }
+  
+  .slider-button.next {
+	right: 10px;
+	
+  }
+  
+  .slider-inner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+  }
+  
+  .slider-item {
+	display: none;
+	margin: 10px;
+	width: 100%;
+	align-items: center;
+  }
+  
+  .slider-item.active {
+	display: block;
+  }
+  
+  .slider-item img {
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+	border-radius: 10px;
+  }
+  
+  .slider-item h3 {
+	font-size: 16px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+  }
+  
+  .slider-item p {
+	font-size: 14px;
+	color: #666;
+  }
+
+.order-btn {
+	width: 80px;
+	height: 40px;
+	border: solid #45a049;
+	background-color: #45a049;
+	color: white;
+	border-radius: 20px;
+	padding: .3rem 1rem;
+	cursor: pointer;
+	margin-left: 1rem;
+	margin-top: 5px;
+}
+
+.order-btn.add {
+	margin-left: 25%;
+}
+
+.view-cart-btn {
+	width: 150px;
+	height: 40px;
+	border: solid #45a049;
+	background-color: #45a049;
+	color: white;
+	border-radius: 20px;
+	padding: .3rem 1rem;
+	cursor: pointer;
+	margin-left: 1rem;
+	margin-top: 5px;
+	margin-left: 25%;
+}

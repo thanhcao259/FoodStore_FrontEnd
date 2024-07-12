@@ -246,7 +246,7 @@ function CheckoutSection() {
       try {
         let finalPrice = totalPrice + vat;
         if(orderInfo.totalFee && orderInfo.totalFee>0){
-          finalPrice = finalPrice + orderInfo.totalFee;
+          finalPrice += orderInfo.totalFee;
           // setTotalPrice(totalPrice+vat+orderInfo.totalFee);
         } 
         // console.log("total after: ", finalPrice);
@@ -484,7 +484,7 @@ function CheckoutSection() {
                         <select
                           style={{ marginLeft: "10px", width: "150px" }}
                           onChange={handleSelectedPayment} >
-                          <option value={1}>Khi nhận hàng</option>
+                          {/* <option value={1}>Khi nhận hàng</option> */}
                           <option value={2}>Qua VNPAY</option>
                         </select>
                       </label>
