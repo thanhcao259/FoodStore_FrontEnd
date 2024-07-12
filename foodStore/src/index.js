@@ -30,6 +30,8 @@ import OrderDetail from './OrderItem';
 import SendEmail from './components/sendEmail';
 import ResetPassword from './components/Reset_password';
 import VerifyRegister from './components/verify_register';
+import Foodbot from './Chatbot';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -79,6 +81,7 @@ root.render(
             </BrowserRouter>
         {/* </React.StrictMode> */}
         <ToastContainer/>
+        <Foodbot/>
     </>
 );
 

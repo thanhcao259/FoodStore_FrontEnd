@@ -45,6 +45,10 @@ const listProducts= {
     changeStatus(id){
         const url =`/product-change-status/${id}`;
         return axiosAdmin.put(url);
+    },
+    searchByCategory(cateName){
+        const url = `/search-by-cate=${cateName}`;
+        return axiosClient.get(url);
     }
 };
 
