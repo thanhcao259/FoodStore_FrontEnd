@@ -226,6 +226,7 @@ function CheckoutSection() {
 
 
   const handleSelectedPayment = (e) => {
+    console.log('payment', e.target.value);
     setPayment(e.target.value);
   };
 
