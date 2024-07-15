@@ -22,7 +22,6 @@ function Home() {
       <Categories/>
       <Featured/>
       <Footer/>
-      <Foodbot/>
     </div>
   );
 }
