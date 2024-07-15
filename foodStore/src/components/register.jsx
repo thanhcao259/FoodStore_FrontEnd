@@ -40,11 +40,8 @@ function Register(){
                 }
                 
             } catch (error) {
-                if (error.response && error.response.status === 409) {
-                    toast.error("Email already exists");
-                } else {
-                    toast.error("Register failed");
-                }
+                toast.error("Register failed ");
+                console.log("err during register", error);
             }
         } else{
             toast.error("Password is invalid");
