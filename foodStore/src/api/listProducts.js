@@ -7,7 +7,7 @@ const listProducts= {
         return axiosClient.get(url);
     },
     getAllByAdmin(){
-        const url = '/admin/products/get-all';
+        const url = '/products/get-all';
         return axiosAdmin.get(url);
     },
     delete(id){
