@@ -487,7 +487,7 @@ function CheckoutSection() {
                         <select
                           style={{ marginLeft: "10px", width: "150px" }}
                           onChange={handleSelectedPayment} >
-                          {/* <option value={1}>Khi nhận hàng</option> */}
+                          <option value={1}>Khi nhận hàng</option>
                           <option value={2}>Qua VNPAY</option>
                         </select>
                       </label>
