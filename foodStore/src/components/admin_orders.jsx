@@ -117,12 +117,12 @@ function AdminOrders(){
             selector: row => row.statusOrder,
             sortable: true,
         },
-        {
-            name: 'Thanh toán',
-            selector: row => row.vnPayResponseDTO,
-            sortable: true,
-            cell: row => formatPayment(row),
-        },
+        // {
+        //     name: 'Thanh toán',
+        //     selector: row => row.vnPayResponseDTO,
+        //     sortable: true,
+        //     cell: row => formatPayment(row),
+        // },
         { name: 'Tác vụ', cell: (row) => (
             <Box sx={{ display: "flex", justifyContent: "space-between", width: "70px" }}>
                 <IconButton aria-label="check" onClick={() => handleUpdateStatus(row.id, row.statusOrder)}>
