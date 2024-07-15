@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 import { getToken } from "../utils/auth";
 
 const axiosClient = axios.create({
-    baseURL:'http://localhost:8082/api/',
-    // baseURL: "https://foodstorebackend-production.up.railway.app",
+    // baseURL:'http://localhost:8082/api/',
+    baseURL: "https://foodstorebackend-production.up.railway.app/",
     headers:{
         'Content-Type': 'application/json',
     },
