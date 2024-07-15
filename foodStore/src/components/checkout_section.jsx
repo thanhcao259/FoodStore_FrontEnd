@@ -234,6 +234,7 @@ function CheckoutSection() {
     // debugger
     if (payment === 1) { //pay by cash
       try {
+        console.log("payment ", payment);
         await orderApi.add(address, userInfo.username, userInfo.phone);
         toast.success("Order success");
         navigate("/Home");
@@ -244,6 +245,7 @@ function CheckoutSection() {
     } 
     else { //VnPay
       try {
+        console.log("payment ", payment);
         let finalPrice = totalPrice + vat;
         if(orderInfo.totalFee && orderInfo.totalFee>0){
           finalPrice += orderInfo.totalFee;
