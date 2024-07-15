@@ -18,7 +18,7 @@ function ShopDetails(){
             <Breadcrumb/>
             <ProductDetails/>
             <Footer/>
-            <Foodbot/>
+            {/* <Foodbot/> */}
         </div>
     );
 }

@@ -19,7 +19,7 @@ function SearchProduct(){
             <Breadcrumb/>
             <SearchListProduct/>
             <Footer/>
-            <Foodbot/>
+            {/* <Foodbot/> */}
         </div>
     );
 }

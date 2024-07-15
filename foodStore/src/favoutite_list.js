@@ -18,7 +18,7 @@ function FavouriteList(){
             <Breadcrumb/>
             <FavouritesSection/>
             <Footer/>
-            <Foodbot/>
+            {/* <Foodbot/> */}
         </div>
     )
 }
