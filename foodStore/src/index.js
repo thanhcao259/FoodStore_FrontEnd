@@ -81,7 +81,7 @@ root.render(
             </BrowserRouter>
         {/* </React.StrictMode> */}
         <ToastContainer/>
-        <Foodbot/>
+        {/* <Foodbot/> */}
     </>
 );
 

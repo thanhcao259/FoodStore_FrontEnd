@@ -7,6 +7,7 @@ import Breadcrumb from './components/breadcrumb';
 import CartSection from './components/cart_section';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+import Foodbot from './Chatbot';
 
 function ShoppingCart(){
     return(
@@ -17,6 +18,7 @@ function ShoppingCart(){
             <Breadcrumb/>
             <CartSection/>
             <Footer/>
+            <Foodbot/>
         </div>
     )
 }

@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import { ToastContainer } from 'react-toastify';
 import Province from './components/delivery/province';
+import Foodbot from './Chatbot';
 
 
 function Home() {
@@ -21,6 +22,7 @@ function Home() {
       <Categories/>
       <Featured/>
       <Footer/>
+      <Foodbot/>
     </div>
   );
 }

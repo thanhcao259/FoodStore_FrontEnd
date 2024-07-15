@@ -1,17 +1,19 @@
-// src/ActionProvider.js
 import React, { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 
+
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
+
     const [isLogin, setIsLogin] = useState(false);
-        
+       
     useEffect(() =>{
         const token = Cookies.get('token');
         if (token){
             setIsLogin(true);
         }
     }, [isLogin]);
+
 
     const handleLogin = () => {
         if (!isLogin) {
@@ -22,7 +24,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                 }
             );
             updateState(message);
-            
+           
         } else {
             const message = createChatBotMessage(
                 "Vâng bạn muốn loại thực phẩm nào ạ?",
@@ -32,8 +34,9 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             );
             updateState(message);
         }
-        
+       
     }
+
 
     const handleFoodList = (item) => {
         const message = createChatBotMessage(
@@ -44,13 +47,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         );
         updateState(message);
     }
-
-    const handleComboList = (item) =>{
-        const mess = createChatBotMessage(
-            `Lựa chọn những combo mà bạn muốn đặt`,
-            { widget: "orderCombo", }
-        ); updateState(mess);
-    }
     const handleAddToCart = (item) => {
         const message = createChatBotMessage(
             `Bạn muốn thêm ${item.name} vào giỏ hàng chứ?`,
@@ -60,6 +56,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         );
         updateState(message);
     }
+
 
     const handleAddToCartSucces = () => {
         const message = createChatBotMessage(
@@ -77,6 +74,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(message);
     }
 
+
     const handleContinueShopping = () => {
         const message = createChatBotMessage(
             `Hãy tiếp tục chọn loại sản phẩm mà bạn muốn mua`,
@@ -86,6 +84,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         );
         updateState(message);
     }
+
 
     const handleStopShopping = () => {
         const message = createChatBotMessage(
@@ -97,6 +96,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(message);
     }
 
+
     const handleHello = () => {
         const message = createChatBotMessage(
             "Xin chào, Foody có thể giúp gì cho bạn!"
@@ -104,10 +104,20 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(message);
     }
 
+
+    const error = () => {
+        const message = createChatBotMessage(
+            "Xin lỗi, tôi không hiểu yêu cầu của bạn ?"
+        );
+        updateState(message);
+    }
+
+
     const updateState = (message) => {
         setState((prev) => ({
             ...prev,
             messages: [...prev.messages, message],
+
 
         }))
     }
@@ -123,14 +133,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                 handleAddToCartSucces,
                 handleCancelAddToCart,
                 handleContinueShopping,
-                handleStopShopping, 
-                handleComboList,   
+                handleStopShopping,
+                error,    
               },
             });
           })}
         </div>
     );
 };
-  
+ 
 export default ActionProvider;
-  

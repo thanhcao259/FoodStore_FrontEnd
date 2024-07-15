@@ -7,6 +7,7 @@ import Breadcrumb from './components/breadcrumb';
 import FavouritesSection from './components/FavouritesSection';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+import Foodbot from './Chatbot';
 
 function FavouriteList(){
     return(
@@ -17,6 +18,7 @@ function FavouriteList(){
             <Breadcrumb/>
             <FavouritesSection/>
             <Footer/>
+            <Foodbot/>
         </div>
     )
 }

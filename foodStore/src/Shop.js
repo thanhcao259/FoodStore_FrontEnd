@@ -8,6 +8,7 @@ import Breadcrumb from './components/breadcrumb';
 import Product from './components/product';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+import Foodbot from './Chatbot';
 
 function Shop(){
     return(
@@ -18,6 +19,7 @@ function Shop(){
             <Breadcrumb/>
             <Product/>
             <Footer/>
+            <Foodbot/>
         </div>
     );
 }
