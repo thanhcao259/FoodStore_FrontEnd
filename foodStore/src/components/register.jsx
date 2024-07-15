@@ -28,12 +28,21 @@ function Register(){
                     "phone": phoneNumber,
                     "email": email
                 };
-                registerApi.add(postData);
+                const response = registerApi.add(postData);
                 console.log("data ", postData);
-                navigate('/verify_register');
-                toast.success("Register success!");
+                if(response.status === 201 || response.status === 200){
+                    navigate('/verify_register');
+                    toast.success("Register success!");
+                } else {
+                    toast.error("Register failed");
+                }
+                
             } catch (error) {
-                toast.error("Register failed");
+                if (error.response && error.response.status === 409) {
+                    toast.error("Email already exists");
+                } else {
+                    toast.error("Register failed");
+                }
             }
         } else{
             toast.error("Password is invalid");
