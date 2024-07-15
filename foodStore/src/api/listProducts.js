@@ -8,7 +8,7 @@ const listProducts= {
     },
     getAllByAdmin(){
         const url = '/products/get-all/admin';
-        return axiosAdmin.get(url);
+        return axiosClient.get(url);
     },
     delete(id){
         const url = `/admin/products/${id}`;
