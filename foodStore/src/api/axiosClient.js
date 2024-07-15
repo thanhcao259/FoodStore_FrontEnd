@@ -4,7 +4,7 @@ import { getToken } from "../utils/auth";
 
 const axiosClient = axios.create({
     // baseURL:'http://localhost:8082/api/',
-    baseURL: "https://foodstorebackend-production.up.railway.app/",
+    baseURL: "https://foodstorebackend-production.up.railway.app/api/",
     headers:{
         'Content-Type': 'application/json',
     },
