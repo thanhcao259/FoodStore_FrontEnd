@@ -30,13 +30,15 @@ function Register(){
                 };
                 const response = registerApi.add(postData);
                 console.log("data ", postData);
-                if(response.status === 201 ){
+                if(response.status === 201 || response.status === 200){
                     navigate('/verify_register');
                     toast.success("Register success!");
                 } if (response.status === 409) {
                     toast.error("Email already exists");
                 } else {
                     toast.error("Register failed");
+                    console.log("Another err");
+        
                 }
                 
             } catch (error) {
