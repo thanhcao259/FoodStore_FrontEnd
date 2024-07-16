@@ -30,19 +30,13 @@ function Register(){
                 };
                 const response = await registerApi.add(postData);
                 console.log("data ", postData);
-                if(response.status === 201 || response.status === 200){
-                    navigate('/verify_register');
-                    toast.success("Register success!");
-                } else if (response.status === 409) {
+                if (response.status === 409) {
                     toast.error("Email already exists");
                 } 
-                // else {
-                //     // const errorMessage = response.data?.message || "Register failed";
-                //     // toast.error(errorMessage);
-                //     // console.log("Another error: ", errorMessage);
-                //     toast.success("Register success!");
-                //     navigate("/verify_register");
-                // }
+                else {
+                    toast.success("Register success!");
+                    navigate("/verify_register");
+                }
                 
             } catch (error) {
                 toast.error("Register failed ");
