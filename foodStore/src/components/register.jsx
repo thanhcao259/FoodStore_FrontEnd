@@ -33,12 +33,12 @@ function Register(){
                 if(response.status === 201 || response.status === 200){
                     navigate('/verify_register');
                     toast.success("Register success!");
-                } if (response.status === 409) {
+                } else if (response.status === 409) {
                     toast.error("Email already exists");
                 } else {
                     const errorMessage = response.data?.message || "Register failed";
                     toast.error(errorMessage);
-                    console.log("Another error: ", response);
+                    console.log("Another error: ", errorMessage);
                 }
                 
             } catch (error) {
