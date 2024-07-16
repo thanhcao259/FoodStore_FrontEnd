@@ -17,8 +17,8 @@ function Register(){
 
     const navigate = useNavigate();
 
-    const handleRegister =() => {
-        
+    const handleRegister = async (event) => {
+        event.preventDefault();
         if (isPasswordCorrect) {
             try {
                 const postData = {
@@ -28,7 +28,7 @@ function Register(){
                     "phone": phoneNumber,
                     "email": email
                 };
-                const response = registerApi.add(postData);
+                const response = await registerApi.add(postData);
                 console.log("data ", postData);
                 if(response.status === 201 || response.status === 200){
                     navigate('/verify_register');
