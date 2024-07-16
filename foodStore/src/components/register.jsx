@@ -36,9 +36,11 @@ function Register(){
                 } else if (response.status === 409) {
                     toast.error("Email already exists");
                 } else {
-                    const errorMessage = response.data?.message || "Register failed";
-                    toast.error(errorMessage);
-                    console.log("Another error: ", errorMessage);
+                    // const errorMessage = response.data?.message || "Register failed";
+                    // toast.error(errorMessage);
+                    // console.log("Another error: ", errorMessage);
+                    toast.success("Register success!");
+                    navigate("/verify_register");
                 }
                 
             } catch (error) {
