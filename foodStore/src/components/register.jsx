@@ -36,9 +36,9 @@ function Register(){
                 } if (response.status === 409) {
                     toast.error("Email already exists");
                 } else {
-                    toast.error("Register failed");
-                    console.log("Another err");
-        
+                    const errorMessage = response.data?.message || "Register failed";
+                    toast.error(errorMessage);
+                    console.log("Another error: ", response);
                 }
                 
             } catch (error) {
